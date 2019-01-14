@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card>
+      <nb-card-header>添加分类</nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="catalogForm" (ngSubmit)="save()">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>名称</label>
+                <input type="text" class="form-control" formControlName="name" placeholder="Name">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>文章类型</label>
+                <nb-select [formControlName]="'type'" placeholder="请选择文章类型">
+                  <nb-option>请选择文章类型</nb-option>
+                  <nb-option *ngFor="let item of types" [value]="item._id">{{item.name}}</nb-option>
+                </nb-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label>描述</label>
+                <textarea class="form-control" formControlName="description" placeholder="description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>文章类型</label>
+                <nb-select formControlName="parent" placeholder="请选择上级目录">
+                  <nb-option>请选择文章类型</nb-option>
+                  <nb-option *ngFor="let item of catalogs" [value]="item._id">{{item.name}}</nb-option>
+                </nb-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="weui-cell">
+                <div class="weui-cell__bd">
+                  <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                      <p class="weui-uploader__title">请上传分类图片</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                      <ul class="weui-uploader__files">
+                        <li class="weui-uploader__file" *ngFor="let item of uploader.queue"
+                            [weui-thumb]="item._file"
+                            [ngClass]="{'weui-uploader__file_status': item.isError || item.isUploading}">
+                          <div class="weui-uploader__file-content" *ngIf="item.isUploading">{{item.progress}}%</div>
+                          <div class="weui-uploader__file-content" *ngIf="item.isError">
+                            <i class="weui-icon-warn"></i>
+                          </div>
+                        </li>
+                      </ul>
+                      <div *ngIf="uploader?.queue?.length < 1" class="weui-uploader__input-box">
+                        <input class="weui-uploader__input" type="file" accept="image/*" multiple
+                               [weui-uploader-file]="uploader">
+                      </div>
+                    </div>
+                  </div>
+                  <!--<app-gallery [imgs]="img" [(show)]="imgShow" (delete)="onDel($event)"></app-gallery>-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

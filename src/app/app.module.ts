@@ -15,6 +15,18 @@ import {AppRoutingModule} from './app-routing.module';
 import {ThemeModule} from './@theme/theme.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {JwtModule} from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  if (localStorage.getItem('auth_app_token')) {
+    const token = JSON.parse(localStorage.getItem('auth_app_token')).value;
+    console.log(token);
+    return token;
+  } else {
+    return '';
+  }
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -26,6 +38,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['127.0.0.1'],
+        blacklistedRoutes: ['127.0.0.1/api/auth/local']
+      }
+    })
   ],
   bootstrap: [AppComponent],
   providers: [
